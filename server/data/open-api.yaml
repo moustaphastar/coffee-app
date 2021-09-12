@@ -1,0 +1,192 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: mustafayildiz1881@gmail.com
+    name: Mustafa
+  description: Coffee endpoint API
+  title: Coffee API
+  version: 0.0.1
+servers:
+  - url: '{server}/api-docs'
+    variables:
+      server:
+        default: 'https://localhost:5004/api'
+paths:
+  /coffees:
+    get:
+      summary: Get Coffee Endpoint
+      description: Returns all coffee instancesu
+      responses:
+        '200':
+          description: A Coffee Response
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    category:
+                      type: string
+                    ingredients:
+                      items:
+                        enum:
+                          - iced
+                          - hot
+                        type: string
+                      type: array
+                    createdTime:
+                      type: string
+                    updatedTime:
+                      type: string
+                  required:
+                    - id
+      parameters: []
+  '/coffee/{id}':
+    get:
+      summary: Get Coffee Endpoint
+      description: Returns a single coffee instance
+      parameters:
+        - in: path
+          name: id
+          required: true
+          style: matrix
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A Coffee Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoffeeResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: string
+              example: Resource Not Found
+    delete:
+      summary: Delete Coffee Enpoint
+      description: Deletes a single coffee
+      parameters: []
+      operationId: ''
+      responses:
+        '204':
+          description: Empty Response
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema: {}
+    put:
+      summary: ''
+      description: ''
+      parameters: []
+      operationId: ''
+      responses:
+        '200':
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoffeeResponse'
+        '400':
+          description: Invalid Input
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema: {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CofeeRequest'
+        description: updated coffee
+components:
+  schemas:
+    CoffeeRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        ingredients:
+          type: array
+          items:
+            enum:
+              - iced
+              - hot
+            type: string
+      required:
+        - category
+        - title
+    CoffeeResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        ingredients:
+          items:
+            enum:
+              - iced
+              - hot
+            type: string
+          type: array
+        createdTime:
+          type: string
+        updatedTime:
+          type: string
+      required:
+        - id
+    CoffeeList:
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          title:
+            type: string
+          description:
+            type: string
+          category:
+            type: string
+          ingredients:
+            items:
+              enum:
+                - iced
+                - hot
+              type: string
+            type: array
+          createdTime:
+            type: string
+          updatedTime:
+            type: string
+        required:
+          - id
+  links: {}
+  callbacks: {}
+security: []

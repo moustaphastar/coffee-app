@@ -1,0 +1,223 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "contact": {
+      "email": "mustafayildiz1881@gmail.com",
+      "name": "Mustafa"
+    },
+    "description": "A sample testing API for a coffee app",
+    "title": "Coffee App (Test)",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "{server}/api",
+      "description": "API testing server",
+      "variables": {
+        "server": {
+          "default": "http://localhost:5004"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/coffees": {
+      "get": {
+        "summary": "Get all coffees.",
+        "description": "Returns all coffees from the persistent database.",
+        "responses": {
+          "200": {
+            "description": "A list of coffees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Coffee"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Resource Not Found"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/coffees/category/{text}": {
+      "get": {
+        "summary": "Get coffees by category.",
+        "description": "Returns a list of coffees matching the given category name.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "text",
+            "description": "Name of category.",
+            "required": true,
+            "style": "matrix",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of coffees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Coffee"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Resource Not Found"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/coffees/search/{text}": {
+      "get": {
+        "summary": "Get coffees by a text search.",
+        "description": "Returns a list of coffees matching the given text.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "text",
+            "description": "A text to search as case and diacritic insensitive in persistent database.",
+            "required": true,
+            "style": "matrix",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of coffees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Coffee"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Resource Not Found"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CoffeeRequest": {
+        "text": {
+          "type": "string"
+        },
+        "required": [
+          "text"
+        ]
+      },
+      "Coffee": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "format": "string"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "ingredients": {
+            "items": {
+              "enum": [
+                "iced",
+                "hot"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          }
+        }
+      }
+    },
+    "links": {},
+    "callbacks": {}
+  },
+  "security": []
+}
